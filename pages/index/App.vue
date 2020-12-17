@@ -1,8 +1,9 @@
 <template>
   <div>
     <Header></Header>
-    <div class="container">{{msg}}</div>
-    <img src="./images/test.jpg" alt="">
+    <div class="banner">
+      <img src="./images/test.jpg" alt="">
+    </div>
   </div>
 </template>
 <script>
@@ -18,3 +19,16 @@
     }
   }
 </script>
+
+<style lang="scss">
+@import "common/styles/var";
+
+.banner {
+  width: 100vw;
+  height: 300px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
