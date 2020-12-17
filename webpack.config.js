@@ -1,15 +1,28 @@
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const fs = require('fs')
+const _ = require('lodash')
+
+const pages = fs.readdirSync('./pages')
+const entries = {}
+const htmls = []
+_.each(pages, page => {
+  entries[page] = `./pages/${page}/index.js`
+  htmls.push(
+      new HtmlWebpackPlugin({
+        template: `./pages/${page}/index.html`,
+        filename: `pages/${page}.html`,
+        //增加指定的chunks
+        chunks: ['main', 'index'],
+      })
+  )
+})
 
 module.exports = {
-  entry: {
-    index: './pages/index/index.js',
-    test: './pages/test/index.js',
-  },
+  entry: entries,
   output: {
     filename: 'scripts/[name].js',
     path: __dirname + '/dist',
@@ -74,25 +87,9 @@ module.exports = {
     port: 8080,
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-      filename: 'pages/index.html',
-      title: 'index',
-      //增加指定的chunks
-      chunks: ['main', 'index'],
-    }),
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-      filename: 'pages/test.html',
-      title: 'test',
-      //增加指定的chunks
-      chunks: ['main', 'test'],
-    }),
+      ...htmls,
     new VueLoaderPlugin(),
-    // new ExtractTextPlugin('style.css'),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
       filename: 'styles/[name].css',
       chunkFilename: '[id].css',
     })
