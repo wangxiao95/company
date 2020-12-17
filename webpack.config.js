@@ -14,7 +14,7 @@ _.each(pages, page => {
   htmls.push(
       new HtmlWebpackPlugin({
         template: `./pages/${page}/index.html`,
-        filename: `pages/${page}.html`,
+        filename: `${page}.html`,
         //增加指定的chunks
         chunks: ['main', 'index'],
       })
@@ -82,7 +82,7 @@ module.exports = {
     hot: true,
     host: 'localhost',
     open: 'Google Chrome',
-    contentBase: path.join(__dirname, 'dist/pages'),
+    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8080,
   },
